@@ -28,7 +28,7 @@ public class TestGrapherGlVsGrapher
 		final MamutViewGrapherOpenGL grapherOpenGL = new MamutViewGrapherOpenGL( projectModel );
 		grapherOpenGL.getFrame().setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 
-		final MamutViewGrapher grapher = new MamutViewGrapher( projectModel );
+		final MamutViewGrapher grapher = projectModel.getWindowManager().createView( MamutViewGrapher.class );
 		grapher.getFrame().setVisible( true );
 		grapher.getFrame().setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 	}
