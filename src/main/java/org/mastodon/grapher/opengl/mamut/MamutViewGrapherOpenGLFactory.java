@@ -28,7 +28,7 @@
  */
 package org.mastodon.grapher.opengl.mamut;
 
-import static org.mastodon.mamut.views.grapher.MamutViewGrapherFactory.GRAPHER_TRANSFORM_KEY;
+import static org.mastodon.mamut.views.grapher.GrapherGuiState.GRAPHER_TRANSFORM_KEY;
 
 import java.util.Map;
 
