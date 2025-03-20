@@ -1,5 +1,7 @@
 package org.mastodon.grapher.opengl;
 
+import static org.mastodon.app.MastodonIcons.FEATURES_ICON;
+
 import java.awt.BorderLayout;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -118,6 +120,7 @@ public class PointCloudFrame extends ViewFrame
 		mouseAndKeyHandler.setBehaviourMap( triggerbindings.getConcatenatedBehaviourMap() );
 		mouseAndKeyHandler.setKeypressManager( optional.values.getKeyPressedManager(), dataDisplayPanel.getCanvas() );
 		dataDisplayPanel.getCanvas().addHandler( mouseAndKeyHandler );
+		setIconImages( FEATURES_ICON );
 
 		pack();
 		final int x = optional.values.getX();
