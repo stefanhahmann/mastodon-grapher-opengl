@@ -3,6 +3,7 @@ package org.mastodon.grapher.opengl;
 import java.io.IOException;
 
 import javax.swing.JFrame;
+import javax.swing.UIManager;
 
 import org.mastodon.grapher.opengl.mamut.MamutViewGrapherOpenGL;
 import org.mastodon.mamut.MainWindow;
@@ -17,6 +18,15 @@ public class TestGrapherGlVsGrapher
 {
 	public static void main( final String[] args ) throws IOException, SpimDataException
 	{
+		try
+		{
+			UIManager.setLookAndFeel( UIManager.getSystemLookAndFeelClassName());
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+
 		System.setProperty( "apple.laf.useScreenMenuBar", "true" );
 		final Context context = new Context();
 		final String projectPath = "/Users/tinevez/Google Drive/Mastodon/Datasets/Remote/FromVlado/mette_e1.mastodon";
