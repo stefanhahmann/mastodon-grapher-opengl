@@ -29,7 +29,8 @@ public class TestGrapherGlVsGrapher
 
 		System.setProperty( "apple.laf.useScreenMenuBar", "true" );
 		final Context context = new Context();
-		final String projectPath = "/Users/tinevez/Google Drive/Mastodon/Datasets/Remote/FromVlado/mette_e1.mastodon";
+		// final String projectPath = "/Users/tinevez/Google Drive/Mastodon/Datasets/Remote/FromVlado/mette_e1.mastodon";
+		final String projectPath = "D:\\DeepLineage\\Datasets\\Mette Handberg-Thorsager\\embryo02_13-03-15\\e2-ellipsoids-9.mastodon";
 		final ProjectModel projectModel = ProjectLoader.open( projectPath, context, false, true );
 		final MainWindow mainWindow = new MainWindow( projectModel );
 		mainWindow.setVisible( true );
