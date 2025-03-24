@@ -26,6 +26,7 @@ import org.mastodon.grapher.opengl.PointCloudFrame;
 import org.mastodon.grapher.opengl.PointCloudPanel;
 import org.mastodon.grapher.opengl.overlays.BoxSelectionBehaviour;
 import org.mastodon.grapher.opengl.overlays.DataDisplayZoomGL;
+import org.mastodon.grapher.opengl.overlays.FreeformSelectionBehaviourOpenGL;
 import org.mastodon.mamut.MainWindow;
 import org.mastodon.mamut.MamutMenuBuilder;
 import org.mastodon.mamut.ProjectModel;
@@ -123,6 +124,15 @@ public class MamutViewGrapherOpenGL extends MamutView< ViewGraph< Spot, Link, Sp
 
 		// Zoom with a box.
 		DataDisplayZoomGL.install( viewBehaviours, dataDisplayPanel );
+
+		// Select with a polygon.
+		FreeformSelectionBehaviourOpenGL.install(
+				viewBehaviours,
+				dataDisplayPanel,
+				model.getGraph(),
+				focusModel,
+				selectionModel,
+				model.getGraph().getLock() );
 
 		/*
 		 * Menus
