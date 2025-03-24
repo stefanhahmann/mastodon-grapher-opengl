@@ -348,12 +348,16 @@ public class PointCloudPanel extends JPanel implements Paintable, ContextListene
 
 			// 3. Y label
 			g2.setFont( labelFont );
-			final int yLabelWidth = fm.stringWidth( layout.getYLabel() );
-			drawStringRotated( g2,
-					width - tickWidth - 2 - maxStringWidth - 5,
-					height / 2 + yLabelWidth / 2,
-					-90.,
-					layout.getYLabel() );
+			String yLabel = layout.getYLabel();
+			if (yLabel != null)
+			{
+				final int yLabelWidth = fm.stringWidth( layout.getYLabel() );
+				drawStringRotated( g2,
+						width - tickWidth - 2 - maxStringWidth - 5,
+						height / 2 + yLabelWidth / 2,
+						-90.,
+						layout.getYLabel() );
+			}
 		}
 	}
 
@@ -445,10 +449,14 @@ public class PointCloudPanel extends JPanel implements Paintable, ContextListene
 
 			// 3. X label
 			g2.setFont( labelFont );
-			final int xLabelWidth = fm.stringWidth( layout.getXLabel() );
-			g2.drawString( layout.getXLabel(),
-					axesWidth + ( width - axesWidth ) / 2 - xLabelWidth / 2,
-					ytop + tickWidth + 2 + 2 * fontAscent + 5 );
+			String xLabel = layout.getXLabel();
+			if (xLabel != null)
+			{
+				final int xLabelWidth = fm.stringWidth( xLabel );
+				g2.drawString( layout.getXLabel(),
+						axesWidth + ( width - axesWidth ) / 2 - xLabelWidth / 2,
+						ytop + tickWidth + 2 + 2 * fontAscent + 5 );
+			}
 
 			// 4. Erase bottom left corner.
 			g.setColor( bgColor );

@@ -110,8 +110,6 @@ public class MamutViewGrapherOpenGL extends MamutView< ViewGraph< Spot, Link, Sp
 
 //		contextListener.setContextListener( dataDisplayPanel );
 
-		dataDisplayPanel.plot( gcv );
-		dataDisplayPanel.getTransformEventHandler().zoomTo( -10000, 10000, -10000, 10000 );
 		dataDisplayPanel.getTransformEventHandler().install( viewBehaviours );
 
 		// Select with a box.
@@ -224,10 +222,11 @@ public class MamutViewGrapherOpenGL extends MamutView< ViewGraph< Spot, Link, Sp
 		colorbarOverlay.setCanvasSize( 250, 80 );
 
 		frame.setVisible( true );
+		dataDisplayPanel.plot( gcv );
+		dataDisplayPanel.getTransformEventHandler().zoomOutFully();
+
 		dataDisplayPanel.repaint();
 		dataDisplayPanel.getCanvas().requestFocusInWindow();
-
-		frame.setVisible( true );
 	}
 
 	@Override
