@@ -412,12 +412,12 @@ public class DataLayoutMaker implements ContextListener< Spot >
 		vertices.releaseRef( tref );
 	}
 
-	private final double getXFeatureValue( final Spot v )
+	public double getXFeatureValue( final Spot v )
 	{
 		return getFeatureValue( v, xpVertex, xpEdge );
 	}
 
-	private final double getYFeatureValue( final Spot v )
+	public double getYFeatureValue( final Spot v )
 	{
 		return getFeatureValue( v, ypVertex, ypEdge );
 	}
