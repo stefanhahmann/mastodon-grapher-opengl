@@ -19,16 +19,18 @@ import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
 import org.mastodon.grapher.opengl.DataLayoutMaker.DataLayout;
+import org.mastodon.grapher.opengl.handler.MouseHighlightHandler;
 import org.mastodon.grapher.opengl.overlays.DataEdgesOverlay;
 import org.mastodon.grapher.opengl.overlays.DataPointsOverlay;
 import org.mastodon.grapher.opengl.overlays.HighlightOverlay;
+import org.mastodon.mamut.model.Link;
 import org.mastodon.mamut.model.Spot;
+import org.mastodon.model.HighlightModel;
 import org.mastodon.views.context.Context;
 import org.mastodon.views.context.ContextListener;
 import org.mastodon.views.grapher.datagraph.ScreenTransform;
 import org.mastodon.views.grapher.display.FeatureGraphConfig;
 import org.mastodon.views.grapher.display.ScreenTransformState;
-import org.mastodon.views.grapher.display.style.DataDisplayStyle;
 
 import bdv.viewer.TransformListener;
 import bdv.viewer.render.PainterThread;
@@ -84,7 +86,7 @@ public class PointCloudPanel extends JPanel implements Paintable, ContextListene
 
 	private final HighlightOverlay highlightOverlay;
 
-	public PointCloudPanel( final DataLayoutMaker layout )
+	public PointCloudPanel( final DataLayoutMaker layout, final HighlightModel<Spot, Link > highlightModel )
 	{
 		super( new BorderLayout(), false );
 		this.layout = layout;
@@ -110,6 +112,12 @@ public class PointCloudPanel extends JPanel implements Paintable, ContextListene
 		canvas.overlays().add( dataEdgesOverlay );
 		canvas.overlays().add( dataPointsOverlay );
 		canvas.overlays().add( highlightOverlay );
+
+		// Highlight handling.
+		final MouseHighlightHandler highlightHandler = new MouseHighlightHandler( layout, highlightModel, screenTransform.get() );
+		canvas.addMouseMotionListener( highlightHandler );
+		canvas.addMouseListener( highlightHandler );
+		screenTransform.listeners().add( highlightHandler );
 
 		// Bottom axis.
 		final JPanel xAxis = new MyXAxisPanel( canvas.transform );
