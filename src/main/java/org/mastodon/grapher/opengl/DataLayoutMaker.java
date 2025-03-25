@@ -1,6 +1,7 @@
 package org.mastodon.grapher.opengl;
 
 import static org.mastodon.grapher.opengl.overlays.DataPointsOverlay.COLOR_NUM_CHANNELS;
+import static org.mastodon.grapher.opengl.overlays.DataPointsOverlay.DEFAULT_POINT_SIZE;
 import static org.mastodon.grapher.opengl.overlays.DataPointsOverlay.VERTEX_NUM_DIMENSIONS;
 
 import java.awt.Color;
@@ -651,11 +652,23 @@ public class DataLayoutMaker implements ContextListener< Spot >
 	 */
 	public Spot getNearestSpot(final double x, final double y, final ScreenTransform screenTransform )
 	{
-		final double[] bbox = ScreenTransformUtils.getDataPointArea( x, y, screenTransform );
-		final RefSet< Spot > spotsWithinBoundingBox = getSpotWithin( bbox[0], bbox[1], bbox[2], bbox[3] );
+		RefSet<Spot> spotsWithinBoundingBox = null;
+		// Search for candidates in a box with decreasing size
+		for ( int i = 0; i < 10; i++ )
+		{
+			float width = DEFAULT_POINT_SIZE / (float ) Math.pow( 2, i );
+			final double[] bbox = ScreenTransformUtils.getDataPointArea( x, y, screenTransform, width );
+			RefSet<Spot> tempSpots = getSpotWithin( bbox[0], bbox[1], bbox[2], bbox[3] );
+			if ( !tempSpots.isEmpty() )
+				spotsWithinBoundingBox = tempSpots;
+			else
+				break;
+		}
+		if ( spotsWithinBoundingBox == null )
+			return null;
 		Spot nearestSpot = null;
 		double nearestDistance = Double.MAX_VALUE;
-		// Find the vertex nearest to the center
+		// Find the vertex nearest to the center from the candidates
 		for ( final Spot spot : spotsWithinBoundingBox )
 		{
 			double xValue = getXFeatureValue( spot );
