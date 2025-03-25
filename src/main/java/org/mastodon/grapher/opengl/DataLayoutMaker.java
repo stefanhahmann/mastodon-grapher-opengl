@@ -441,16 +441,16 @@ public class DataLayoutMaker implements ContextListener< Spot >
 
 	/**
 	 * Returns the set of data vertices that are painted according to this
-	 * layout instance, within the specified <b>screen coordinates</b>.
+	 * layout instance, within the specified <b>layout coordinates</b>.
 	 *
 	 * @param x1
-	 *            x min in screen coordinates.
+	 *            x min in layout coordinates.
 	 * @param y1
-	 *            y min in screen coordinates.
+	 *            y min in layout coordinates.
 	 * @param x2
-	 *            x max in screen coordinates.
+	 *            x max in layout coordinates.
 	 * @param y2
-	 *            y max in screen coordinates.
+	 *            y max in layout coordinates.
 	 * @return a new {@link RefSet}.
 	 */
 	public RefSet< Spot > getSpotWithin( final double x1, final double y1, final double x2, final double y2 )
