@@ -1,10 +1,7 @@
 package org.mastodon.grapher.opengl.overlays;
 
-import static org.mastodon.grapher.opengl.overlays.DataPointsOverlay.DEFAULT_POINT_SIZE;
-
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
-import org.mastodon.collection.RefSet;
 import org.mastodon.grapher.opengl.PointCloudPanel;
 import org.mastodon.mamut.model.Link;
 import org.mastodon.mamut.model.ModelGraph;
@@ -44,54 +41,22 @@ public class ClickSelectionBehaviour extends AbstractSelectionBehaviour implemen
 	/**
 	 * Coordinates of the click in layout space.
 	 */
-	private float centerX;
+	private float x;
 	/**
 	 * Coordinates of the click in layout space.
 	 */
-	private float centerY;
-	/**
-	 * Coordinates of the bounding box in layout space.
-	 */
-	private float bboxXMin;
-	/**
-	 * Coordinates of the bounding box in layout space.
-	 */
-	private float bboxYMin;
-	/**
-	 * Coordinates of the bounding box in layout space.
-	 */
-	private float bboxXMax;
-	/**
-	 * Coordinates of the bounding box in layout space.
-	 */
-	private float bboxYMax;
+	private float y;
 
 	@Override
 	public void doSelection()
 	{
-		final RefSet< Spot > spotsWithinBoundingBox = getSpotsWithinBoundingBox( pointCloudPanel.getDataLayout(), bboxXMin, bboxYMin, bboxXMax, bboxYMax );
-		Spot closestSpot = null;
-		double closestDistance = Double.MAX_VALUE;
-		// Find the vertex closest to the click
-		for ( final Spot spot : spotsWithinBoundingBox )
-		{
-			double xValue = pointCloudPanel.getDataLayout().getXFeatureValue( spot );
-			double yValue = pointCloudPanel.getDataLayout().getYFeatureValue( spot );
-			final double dx = centerX - xValue;
-			final double dy = centerY - yValue;
-			final double distanceSquared = dx * dx + dy * dy;
-			if ( distanceSquared < closestDistance )
-			{
-				closestDistance = distanceSquared;
-				closestSpot = spot;
-			}
-		}
-		if ( closestSpot != null )
+		Spot spot = pointCloudPanel.getDataLayout().getNearestSpot( x, y, screenTransform );
+		if ( spot != null )
 		{
 			if ( addToSelection )
-				selection.toggle( closestSpot );
+				selection.toggle( spot );
 			else
-				selection.setSelected( closestSpot, true );
+				selection.setSelected( spot, true );
 		}
 	}
 
@@ -105,13 +70,8 @@ public class ClickSelectionBehaviour extends AbstractSelectionBehaviour implemen
 	private void updateCoordinates( final int x, final int y )
 	{
 		screenTransformState.get( screenTransform );
-		centerX = (float ) screenTransform.screenToLayoutX( x );
-		centerY = (float ) screenTransform.screenToLayoutY( y );
-		float halfBboxSize = DEFAULT_POINT_SIZE / 2f;
-		bboxXMin = (float ) screenTransform.screenToLayoutX( x + halfBboxSize );
-		bboxYMin = (float ) screenTransform.screenToLayoutY( y + halfBboxSize );
-		bboxXMax = (float ) screenTransform.screenToLayoutX( x - halfBboxSize );
-		bboxYMax = (float ) screenTransform.screenToLayoutY( y - halfBboxSize );
+		this.x = (float ) screenTransform.screenToLayoutX( x );
+		this.y = (float ) screenTransform.screenToLayoutY( y );
 	}
 
 	public static void install(

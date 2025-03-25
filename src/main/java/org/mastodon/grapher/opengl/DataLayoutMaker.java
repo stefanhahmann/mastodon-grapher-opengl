@@ -17,6 +17,7 @@ import org.mastodon.graph.algorithm.traversal.DepthFirstSearch;
 import org.mastodon.graph.algorithm.traversal.GraphSearch.SearchDirection;
 import org.mastodon.graph.algorithm.traversal.SearchListener;
 import org.mastodon.grapher.opengl.util.KdTreeWrapper;
+import org.mastodon.grapher.opengl.util.ScreenTransformUtils;
 import org.mastodon.mamut.model.Link;
 import org.mastodon.mamut.model.ModelGraph;
 import org.mastodon.mamut.model.Spot;
@@ -25,6 +26,7 @@ import org.mastodon.model.SelectionModel;
 import org.mastodon.ui.coloring.GraphColorGenerator;
 import org.mastodon.views.context.Context;
 import org.mastodon.views.context.ContextListener;
+import org.mastodon.views.grapher.datagraph.ScreenTransform;
 import org.mastodon.views.grapher.display.DataDisplayOptions;
 import org.mastodon.views.grapher.display.FeatureGraphConfig;
 import org.mastodon.views.grapher.display.FeatureSpecPair;
@@ -638,6 +640,36 @@ public class DataLayoutMaker implements ContextListener< Spot >
 	public void contextChanged( final Context< Spot > context )
 	{
 		this.context = context;
+	}
+
+	/**
+	 * Returns the vertex nearest to the specified coordinates. The coordinates are given in layout space.
+	 * @param x coordinate in layout space.
+	 * @param y coordinate in layout space.
+	 * @param screenTransform the screen transform.
+	 * @return the vertex nearest to the specified coordinates.
+	 */
+	public Spot getNearestSpot(final double x, final double y, final ScreenTransform screenTransform )
+	{
+		final double[] bbox = ScreenTransformUtils.getDataPointArea( x, y, screenTransform );
+		final RefSet< Spot > spotsWithinBoundingBox = getSpotWithin( bbox[0], bbox[1], bbox[2], bbox[3] );
+		Spot nearestSpot = null;
+		double nearestDistance = Double.MAX_VALUE;
+		// Find the vertex nearest to the center
+		for ( final Spot spot : spotsWithinBoundingBox )
+		{
+			double xValue = getXFeatureValue( spot );
+			double yValue = getYFeatureValue( spot );
+			final double dx = x - xValue;
+			final double dy = y - yValue;
+			final double distanceSquared = dx * dx + dy * dy;
+			if ( distanceSquared < nearestDistance )
+			{
+				nearestDistance = distanceSquared;
+				nearestSpot = spot;
+			}
+		}
+		return nearestSpot;
 	}
 
 	public static final class DataLayout
