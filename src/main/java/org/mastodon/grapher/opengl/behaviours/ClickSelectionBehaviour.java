@@ -57,6 +57,7 @@ public class ClickSelectionBehaviour extends AbstractSelectionBehaviour implemen
 				selection.toggle( spot );
 			else
 				selection.setSelected( spot, true );
+			focus.focusVertex( spot );
 		}
 	}
 
