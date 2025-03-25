@@ -1,8 +1,6 @@
 package org.mastodon.grapher.opengl.overlays;
 
-import org.scijava.ui.behaviour.DragBehaviour;
-
-public interface SelectionBehaviour extends DragBehaviour, GLOverlayRenderer
+public interface SelectionBehaviour
 {
 	void prepareSelection();
 	void doSelection();

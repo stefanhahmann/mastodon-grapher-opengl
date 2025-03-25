@@ -51,7 +51,15 @@ import org.scijava.ui.behaviour.io.gui.CommandDescriptionProvider;
 import org.scijava.ui.behaviour.io.gui.CommandDescriptions;
 import org.scijava.ui.behaviour.util.Behaviours;
 
-public class FreeformSelectionBehaviourOpenGL extends AbstractSelectionBehaviour
+/**
+ * Behaviour to select vertices and edges inside a polygon with a mouse
+ * drag.
+ * <p>
+ * The selection happens in layout space, so it also selects vertices inside
+ * dense ranges. A vertex is considered inside the polygon if its layout coordinate is
+ * inside the polygon.
+ */
+public class FreeformSelectionBehaviourOpenGL extends AbstractDragSelectionBehaviour
 {
 
 	public static final String FREEFORM_SELECTION = "freeform selection";

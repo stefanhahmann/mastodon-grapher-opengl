@@ -20,7 +20,7 @@ import org.scijava.ui.behaviour.util.Behaviours;
  * dense ranges. A vertex is inside the bounding box if its layout coordinate is
  * inside the bounding box.
  */
-public class BoxSelectionBehaviour extends AbstractSelectionBehaviour
+public class BoxSelectionBehaviour extends AbstractDragSelectionBehaviour
 {
 
 	public static final String BOX_SELECT = "data box selection";
