@@ -39,11 +39,11 @@ public class ClickSelectionBehaviour extends AbstractSelectionBehaviour implemen
 	}
 
 	/**
-	 * Coordinates of the click in layout space.
+	 * Coordinates of the click in screen space.
 	 */
 	private float x;
 	/**
-	 * Coordinates of the click in layout space.
+	 * Coordinates of the click in screen space.
 	 */
 	private float y;
 
@@ -70,8 +70,8 @@ public class ClickSelectionBehaviour extends AbstractSelectionBehaviour implemen
 	private void updateCoordinates( final int x, final int y )
 	{
 		screenTransformState.get( screenTransform );
-		this.x = (float ) screenTransform.screenToLayoutX( x );
-		this.y = (float ) screenTransform.screenToLayoutY( y );
+		this.x = x;
+		this.y = y;
 	}
 
 	public static void install(
