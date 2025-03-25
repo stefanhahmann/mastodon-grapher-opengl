@@ -26,7 +26,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  * #L%
  */
-package org.mastodon.grapher.opengl.overlays;
+package org.mastodon.grapher.opengl.behaviours;
 
 import java.awt.Point;
 import java.util.ArrayList;

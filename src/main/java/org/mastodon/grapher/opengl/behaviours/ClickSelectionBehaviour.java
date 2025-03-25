@@ -1,4 +1,4 @@
-package org.mastodon.grapher.opengl.overlays;
+package org.mastodon.grapher.opengl.behaviours;
 
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 

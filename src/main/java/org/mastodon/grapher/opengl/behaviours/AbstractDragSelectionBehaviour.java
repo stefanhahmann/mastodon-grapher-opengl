@@ -1,8 +1,9 @@
-package org.mastodon.grapher.opengl.overlays;
+package org.mastodon.grapher.opengl.behaviours;
 
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import org.mastodon.grapher.opengl.PointCloudPanel;
+import org.mastodon.grapher.opengl.overlays.GLOverlayRenderer;
 import org.mastodon.mamut.model.Link;
 import org.mastodon.mamut.model.ModelGraph;
 import org.mastodon.mamut.model.Spot;
