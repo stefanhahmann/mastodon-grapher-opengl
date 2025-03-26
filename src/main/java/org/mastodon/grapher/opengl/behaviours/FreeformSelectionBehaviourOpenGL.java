@@ -42,6 +42,7 @@ import org.mastodon.mamut.model.Link;
 import org.mastodon.mamut.model.ModelGraph;
 import org.mastodon.mamut.model.Spot;
 import org.mastodon.model.FocusModel;
+import org.mastodon.model.NavigationHandler;
 import org.mastodon.model.SelectionModel;
 import org.mastodon.ui.keymap.KeyConfigContexts;
 import org.mastodon.ui.keymap.KeyConfigScopes;
@@ -76,7 +77,9 @@ public class FreeformSelectionBehaviourOpenGL extends AbstractDragSelectionBehav
 			final ModelGraph graph,
 			final FocusModel< Spot > focus,
 			final SelectionModel< Spot, Link > selection,
-			final ReentrantReadWriteLock lock )
+			final NavigationHandler< Spot, Link > navigationHandler,
+			final ReentrantReadWriteLock lock
+	)
 	{
 		final FreeformSelectionBehaviourOpenGL freeformSelectionBehaviourOpenGL = new FreeformSelectionBehaviourOpenGL(
 				FREEFORM_SELECTION,
@@ -85,7 +88,9 @@ public class FreeformSelectionBehaviourOpenGL extends AbstractDragSelectionBehav
 				graph,
 				focus,
 				selection,
-				lock );
+				navigationHandler,
+				lock
+		);
 		behaviours.namedBehaviour( freeformSelectionBehaviourOpenGL, FREEFORM_SELECTION_KEYS );
 
 		final FreeformSelectionBehaviourOpenGL freeformAddSelectionBehaviourOpenGL = new FreeformSelectionBehaviourOpenGL(
@@ -95,7 +100,9 @@ public class FreeformSelectionBehaviourOpenGL extends AbstractDragSelectionBehav
 				graph,
 				focus,
 				selection,
-				lock );
+				navigationHandler,
+				lock
+		);
 		behaviours.namedBehaviour( freeformAddSelectionBehaviourOpenGL, FREEFORM_SELECTION_ADD_KEYS );
 	}
 
@@ -108,9 +115,11 @@ public class FreeformSelectionBehaviourOpenGL extends AbstractDragSelectionBehav
 			final ModelGraph graph,
 			final FocusModel< Spot > focus,
 			final SelectionModel< Spot, Link > selection,
-			final ReentrantReadWriteLock lock )
+			final NavigationHandler< Spot, Link > navigationHandler,
+			final ReentrantReadWriteLock lock
+	)
 	{
-		super( name, selection, focus, graph, pointCloudPanel, lock, addToSelection );
+		super( name, selection, focus, navigationHandler, graph, pointCloudPanel, lock, addToSelection );
 		this.polygon = new ArrayList<>();
 	}
 
@@ -158,6 +167,7 @@ public class FreeformSelectionBehaviourOpenGL extends AbstractDragSelectionBehav
 			{
 				selection.setSelected( spot, true );
 				focus.focusVertex( spot );
+				navigationHandler.notifyNavigateToVertex( spot );
 				// select links, if both source and target are within the polygon
 				for ( final Link link : spot.outgoingEdges() )
 				{

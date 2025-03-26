@@ -121,6 +121,7 @@ public class MamutViewGrapherOpenGL extends MamutView< ViewGraph< Spot, Link, Sp
 				model.getGraph(),
 				focusModel,
 				selectionModel,
+				navigationHandler,
 				model.getGraph().getLock() );
 
 		// Zoom with a box.
@@ -133,6 +134,7 @@ public class MamutViewGrapherOpenGL extends MamutView< ViewGraph< Spot, Link, Sp
 				model.getGraph(),
 				focusModel,
 				selectionModel,
+				navigationHandler,
 				model.getGraph().getLock() );
 
 		// Select with a click
@@ -142,6 +144,7 @@ public class MamutViewGrapherOpenGL extends MamutView< ViewGraph< Spot, Link, Sp
 				model.getGraph(),
 				focusModel,
 				selectionModel,
+				navigationHandler,
 				model.getGraph().getLock() );
 
 		/*

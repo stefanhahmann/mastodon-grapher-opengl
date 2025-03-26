@@ -8,6 +8,7 @@ import org.mastodon.mamut.model.Link;
 import org.mastodon.mamut.model.ModelGraph;
 import org.mastodon.mamut.model.Spot;
 import org.mastodon.model.FocusModel;
+import org.mastodon.model.NavigationHandler;
 import org.mastodon.model.SelectionModel;
 import org.scijava.ui.behaviour.DragBehaviour;
 
@@ -16,10 +17,11 @@ public abstract class AbstractDragSelectionBehaviour extends AbstractSelectionBe
 	protected boolean dragging = false;
 
 	AbstractDragSelectionBehaviour( final String name, final SelectionModel< Spot, Link > selection, final FocusModel<Spot> focus,
+			final NavigationHandler<Spot, Link> navigationHandler,
 			final ModelGraph graph, final PointCloudPanel pointCloudPanel,
 			final ReentrantReadWriteLock lock, final boolean addToSelection )
 	{
-		super( name,selection, focus, graph, pointCloudPanel, lock, addToSelection );
+		super( name,selection, focus, navigationHandler, graph, pointCloudPanel, lock, addToSelection );
 		pointCloudPanel.getCanvas().overlays().add( this );
 	}
 

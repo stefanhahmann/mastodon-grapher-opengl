@@ -9,6 +9,7 @@ import org.mastodon.mamut.model.Link;
 import org.mastodon.mamut.model.ModelGraph;
 import org.mastodon.mamut.model.Spot;
 import org.mastodon.model.FocusModel;
+import org.mastodon.model.NavigationHandler;
 import org.mastodon.model.SelectionModel;
 import org.scijava.ui.behaviour.util.Behaviours;
 
@@ -48,9 +49,11 @@ public class BoxSelectionBehaviour extends AbstractDragSelectionBehaviour
 			final ModelGraph graph,
 			final FocusModel< Spot > focus,
 			final SelectionModel< Spot, Link > selection,
-			final ReentrantReadWriteLock lock )
+			final NavigationHandler<Spot, Link> navigationHandler,
+			final ReentrantReadWriteLock lock
+	)
 	{
-		super( name, selection, focus, graph, pointCloudPanel, lock, addToSelection );
+		super( name, selection, focus, navigationHandler, graph, pointCloudPanel, lock, addToSelection );
 	}
 
 	@Override
@@ -91,6 +94,7 @@ public class BoxSelectionBehaviour extends AbstractDragSelectionBehaviour
 		{
 			selection.setSelected( spot, true );
 			focus.focusVertex( spot );
+			navigationHandler.notifyNavigateToVertex( spot );
 			// select links, if both source and target are within the bounding box
 			for ( final Link link : spot.outgoingEdges() )
 			{
@@ -108,16 +112,20 @@ public class BoxSelectionBehaviour extends AbstractDragSelectionBehaviour
 			final ModelGraph graph,
 			final FocusModel< Spot > focus,
 			final SelectionModel< Spot, Link > selection,
-			final ReentrantReadWriteLock lock )
+			final NavigationHandler< Spot, Link > navigationHandler,
+			final ReentrantReadWriteLock lock
+	)
 	{
-		final BoxSelectionBehaviour boxSelectBehaviour = new BoxSelectionBehaviour( 
-				BOX_SELECT, 
-				false, 
-				panel, 
+		final BoxSelectionBehaviour boxSelectBehaviour = new BoxSelectionBehaviour(
+				BOX_SELECT,
+				false,
+				panel,
 				graph,
 				focus,
 				selection,
-				lock );
+				navigationHandler,
+				lock
+		);
 		behaviours.namedBehaviour( boxSelectBehaviour, BOX_SELECT_KEYS );
 
 		final BoxSelectionBehaviour boxAddSelectBehaviour = new BoxSelectionBehaviour(
@@ -127,7 +135,9 @@ public class BoxSelectionBehaviour extends AbstractDragSelectionBehaviour
 				graph,
 				focus,
 				selection,
-				lock );
+				navigationHandler,
+				lock
+		);
 		behaviours.namedBehaviour( boxAddSelectBehaviour, BOX_ADD_SELECT_KEYS );
 	}
 }

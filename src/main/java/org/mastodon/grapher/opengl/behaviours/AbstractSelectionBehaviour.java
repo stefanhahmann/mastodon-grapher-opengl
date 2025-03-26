@@ -9,6 +9,7 @@ import org.mastodon.mamut.model.Link;
 import org.mastodon.mamut.model.ModelGraph;
 import org.mastodon.mamut.model.Spot;
 import org.mastodon.model.FocusModel;
+import org.mastodon.model.NavigationHandler;
 import org.mastodon.model.SelectionModel;
 import org.mastodon.views.grapher.datagraph.ScreenTransform;
 import org.mastodon.views.grapher.display.ScreenTransformState;
@@ -30,15 +31,19 @@ public abstract class AbstractSelectionBehaviour extends AbstractNamedBehaviour 
 
 	protected final FocusModel< Spot > focus;
 
+	protected final NavigationHandler<Spot, Link> navigationHandler;
+
 	protected final boolean addToSelection;
 
 	AbstractSelectionBehaviour( final String name, final SelectionModel< Spot, Link > selection, final FocusModel<Spot> focus,
+			final NavigationHandler<Spot, Link> navigationHandler,
 			final ModelGraph graph, final PointCloudPanel pointCloudPanel,
 			final ReentrantReadWriteLock lock, final boolean addToSelection )
 	{
 		super( name );
 		this.selection = selection;
 		this.focus = focus;
+		this.navigationHandler = navigationHandler;
 		this.graph = graph;
 		this.pointCloudPanel = pointCloudPanel;
 		this.lock = lock;

@@ -7,6 +7,7 @@ import org.mastodon.mamut.model.Link;
 import org.mastodon.mamut.model.ModelGraph;
 import org.mastodon.mamut.model.Spot;
 import org.mastodon.model.FocusModel;
+import org.mastodon.model.NavigationHandler;
 import org.mastodon.model.SelectionModel;
 import org.scijava.ui.behaviour.ClickBehaviour;
 import org.scijava.ui.behaviour.util.Behaviours;
@@ -30,12 +31,13 @@ public class ClickSelectionBehaviour extends AbstractSelectionBehaviour implemen
 			final String name,
 			final SelectionModel< Spot, Link > selection,
 			final FocusModel< Spot > focus,
+			final NavigationHandler<Spot, Link> navigationHandler,
 			final ModelGraph graph,
 			final PointCloudPanel pointCloudPanel,
 			final ReentrantReadWriteLock lock,
 			final boolean addToSelection )
 	{
-		super( name, selection, focus, graph, pointCloudPanel, lock, addToSelection );
+		super( name, selection, focus, navigationHandler, graph, pointCloudPanel, lock, addToSelection );
 	}
 
 	/**
@@ -58,6 +60,7 @@ public class ClickSelectionBehaviour extends AbstractSelectionBehaviour implemen
 			else
 				selection.setSelected( spot, true );
 			focus.focusVertex( spot );
+			navigationHandler.notifyNavigateToVertex( spot );
 			return;
 		}
 		if (pointCloudPanel.getDataLayout().isPaintEdges())
@@ -93,14 +96,15 @@ public class ClickSelectionBehaviour extends AbstractSelectionBehaviour implemen
 			final ModelGraph graph,
 			final FocusModel< Spot > focus,
 			final SelectionModel< Spot, Link > selection,
+			final NavigationHandler<Spot, Link> navigation,
 			final ReentrantReadWriteLock lock )
 	{
 		final ClickSelectionBehaviour clickSelectionBehaviour = new ClickSelectionBehaviour(
-				CLICK_SELECT, selection, focus, graph, panel, lock, false );
+				CLICK_SELECT, selection, focus, navigation, graph, panel, lock, false );
 		behaviours.namedBehaviour( clickSelectionBehaviour, CLICK_SELECT_KEYS );
 
 		final ClickSelectionBehaviour clickAddSelectionBehaviour = new ClickSelectionBehaviour(
-				CLICK_ADD_SELECT, selection, focus, graph, panel, lock, true );
+				CLICK_ADD_SELECT, selection, focus, navigation, graph, panel, lock, true );
 		behaviours.namedBehaviour( clickAddSelectionBehaviour, CLICK_ADD_SELECT_KEYS );
 	}
 }
