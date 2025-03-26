@@ -60,13 +60,16 @@ public class ClickSelectionBehaviour extends AbstractSelectionBehaviour implemen
 			focus.focusVertex( spot );
 			return;
 		}
-		Link link = pointCloudPanel.getDataLayout().getNearestLink( x, y, screenTransform );
-		if ( link != null )
+		if (pointCloudPanel.getDataLayout().isPaintEdges())
 		{
-			if ( addToSelection )
-				selection.toggle( link );
-			else
-				selection.setSelected( link, true );
+			Link link = pointCloudPanel.getDataLayout().getNearestLink( x, y, screenTransform );
+			if ( link != null )
+			{
+				if ( addToSelection )
+					selection.toggle( link );
+				else
+					selection.setSelected( link, true );
+			}
 		}
 	}
 
