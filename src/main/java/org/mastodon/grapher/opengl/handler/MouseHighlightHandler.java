@@ -110,12 +110,18 @@ public class MouseHighlightHandler
 			// See if we can find a vertex.
 			Spot nearestSpot = dataLayoutMaker.getNearestSpot( x, y, screenTransform );
 			if ( nearestSpot != null )
+			{
 				highlight.highlightVertex( nearestSpot );
+				return;
+			}
 			// See if we can find an edge.
-			//else if
-			//	highlight.highlightEdge( edge );
-			else
-				highlight.clearHighlight();
+			Link nearestLink = dataLayoutMaker.getNearestLink( x, y, screenTransform );
+			if ( nearestLink != null )
+			{
+				highlight.highlightEdge( nearestLink );
+				return;
+			}
+			highlight.clearHighlight();
 		}
 
 
