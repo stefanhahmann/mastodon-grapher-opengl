@@ -58,6 +58,15 @@ public class ClickSelectionBehaviour extends AbstractSelectionBehaviour implemen
 			else
 				selection.setSelected( spot, true );
 			focus.focusVertex( spot );
+			return;
+		}
+		Link link = pointCloudPanel.getDataLayout().getNearestLink( x, y, screenTransform );
+		if ( link != null )
+		{
+			if ( addToSelection )
+				selection.toggle( link );
+			else
+				selection.setSelected( link, true );
 		}
 	}
 
