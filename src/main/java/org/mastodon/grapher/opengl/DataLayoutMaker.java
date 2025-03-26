@@ -132,6 +132,15 @@ public class DataLayoutMaker implements ContextListener< Spot >
 	}
 
 	/**
+	 * Returns whether the screen edges will be generated.
+	 * @return <code>true</code> if the screen edges will be generated.
+	 */
+	public boolean isPaintEdges()
+	{
+		return paintEdges;
+	}
+
+	/**
 	 * Returns a new data layout containing the data points position and their
 	 * links based on the current feature specifications for the current
 	 * vertices in the data graph.
