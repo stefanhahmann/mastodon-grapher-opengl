@@ -648,7 +648,8 @@ public class DataLayoutMaker implements ContextListener< Spot >
 	 * @param x coordinate in layout space.
 	 * @param y coordinate in layout space.
 	 * @param screenTransform the screen transform.
-	 * @return the vertex nearest to the specified coordinates.
+	 * @return the vertex nearest to the specified coordinates
+	 * 		   or <code>null</code> if no vertex is found within {@link org.mastodon.grapher.opengl.overlays.DataPointsOverlay#DEFAULT_POINT_SIZE}/2
 	 */
 	public Spot getNearestSpot(final double x, final double y, final ScreenTransform screenTransform )
 	{
