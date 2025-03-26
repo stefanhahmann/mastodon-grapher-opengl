@@ -114,12 +114,15 @@ public class MouseHighlightHandler
 				highlight.highlightVertex( nearestSpot );
 				return;
 			}
-			// See if we can find an edge.
-			Link nearestLink = dataLayoutMaker.getNearestLink( x, y, screenTransform );
-			if ( nearestLink != null )
+			if (dataLayoutMaker.isPaintEdges())
 			{
-				highlight.highlightEdge( nearestLink );
-				return;
+				// See if we can find an edge.
+				Link nearestLink = dataLayoutMaker.getNearestLink( x, y, screenTransform );
+				if ( nearestLink != null )
+				{
+					highlight.highlightEdge( nearestLink );
+					return;
+				}
 			}
 			highlight.clearHighlight();
 		}

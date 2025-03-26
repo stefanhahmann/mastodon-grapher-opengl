@@ -102,20 +102,23 @@ public class HighlightOverlay implements GLOverlayRenderer
 			highlightedVertexBg = highlightVertexData[ 2 ];
 		}
 
-		final float[][] highlightEdgeData = layout.getHighlightEdgeData();
-		if ( highlightEdgeData == null )
+		if (this.layout.isPaintEdges())
 		{
-			highlightedEdgePos0 = null;
-			highlightedEdgePos1 = null;
-			highlightedEdgeCol = null;
-			highlightedEdgeBg = null;
-		}
-		else
-		{
-			highlightedEdgePos0 = highlightEdgeData[ 0 ];
-			highlightedEdgePos1 = highlightEdgeData[ 1 ];
-			highlightedEdgeCol = highlightEdgeData[ 2 ];
-			highlightedEdgeBg = highlightEdgeData[ 3 ];
+			final float[][] highlightEdgeData = layout.getHighlightEdgeData();
+			if ( highlightEdgeData == null )
+			{
+				highlightedEdgePos0 = null;
+				highlightedEdgePos1 = null;
+				highlightedEdgeCol = null;
+				highlightedEdgeBg = null;
+			}
+			else
+			{
+				highlightedEdgePos0 = highlightEdgeData[ 0 ];
+				highlightedEdgePos1 = highlightEdgeData[ 1 ];
+				highlightedEdgeCol = highlightEdgeData[ 2 ];
+				highlightedEdgeBg = highlightEdgeData[ 3 ];
+			}
 		}
 	}
 }
