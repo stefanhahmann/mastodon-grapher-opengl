@@ -22,6 +22,7 @@ import org.mastodon.app.ViewGraph;
 import org.mastodon.app.ui.MastodonFrameViewActions;
 import org.mastodon.app.ui.ViewMenu;
 import org.mastodon.app.ui.ViewMenuBuilder.JMenuHandle;
+import org.mastodon.grapher.opengl.PointCloudCanvas;
 import org.mastodon.grapher.opengl.PointCloudFrame;
 import org.mastodon.grapher.opengl.PointCloudPanel;
 import org.mastodon.grapher.opengl.behaviours.BoxSelectionBehaviour;
@@ -47,6 +48,7 @@ import org.mastodon.ui.coloring.ColoringModelMain;
 import org.mastodon.ui.coloring.GraphColorGeneratorAdapter;
 import org.mastodon.ui.coloring.feature.FeatureColorMode;
 import org.mastodon.ui.keymap.KeyConfigContexts;
+import org.mastodon.views.grapher.datagraph.ScreenTransform;
 import org.mastodon.views.grapher.display.DataDisplayOptions;
 import org.mastodon.views.grapher.display.FeatureGraphConfig;
 import org.mastodon.views.grapher.display.FeatureGraphConfig.GraphDataItemsSource;
@@ -244,7 +246,14 @@ public class MamutViewGrapherOpenGL extends MamutView< ViewGraph< Spot, Link, Sp
 		frame.getVertexSidePanel().add( sideCanvas, gbc );
 		colorbarOverlay.setCanvasSize( 250, 80 );
 
-		frame.setVisible( true );
+		// update screen transform with actual canvas size before plotting
+		ScreenTransform screenTransform = dataDisplayPanel.getScreenTransform().get();
+		PointCloudCanvas pointCloudCanvas = dataDisplayPanel.getCanvas();
+		int canvasWidth = pointCloudCanvas.getWidth();
+		int canvasHeight = pointCloudCanvas.getHeight();
+		screenTransform.setScreenSize( canvasWidth, canvasHeight );
+		dataDisplayPanel.getScreenTransform().set( screenTransform );
+
 		dataDisplayPanel.plot( gcv );
 		dataDisplayPanel.getTransformEventHandler().zoomOutFully();
 
