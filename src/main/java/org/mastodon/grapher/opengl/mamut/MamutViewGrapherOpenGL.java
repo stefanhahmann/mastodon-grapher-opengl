@@ -159,6 +159,7 @@ public class MamutViewGrapherOpenGL extends MamutView< ViewGraph< Spot, Link, Sp
 		final JMenuHandle tagSetMenuHandle = new JMenuHandle();
 
 		MainWindow.addMenus( menu, actionMap );
+		appModel.getWindowManager().addWindowMenu( menu, actionMap );
 		MamutMenuBuilder.build( menu, actionMap,
 				viewMenu(
 						colorMenu( coloringMenuHandle ),
