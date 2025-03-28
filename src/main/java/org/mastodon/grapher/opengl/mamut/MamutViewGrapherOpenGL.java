@@ -155,6 +155,9 @@ public class MamutViewGrapherOpenGL extends MamutView< ViewGraph< Spot, Link, Sp
 				navigationHandler,
 				model.getGraph().getLock() );
 
+		// Mastodon frame view actions
+		MastodonFrameViewActions.install( viewActions, () -> frame );
+
 		/*
 		 * Menus
 		 */
