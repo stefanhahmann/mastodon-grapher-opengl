@@ -101,7 +101,7 @@ public class MamutViewGrapherOpenGL extends MamutView< ViewGraph< Spot, Link, Sp
 				highlightModel,
 				null,
 				selectionModel,
-				null,
+				navigationHandler,
 				model,
 				groupHandle,
 				options );
