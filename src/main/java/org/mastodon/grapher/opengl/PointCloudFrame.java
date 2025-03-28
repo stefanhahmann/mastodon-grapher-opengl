@@ -88,7 +88,8 @@ public class PointCloudFrame extends ViewFrame
 		mainPanel.setOneTouchExpandable( true );
 		mainPanel.setContinuousLayout( true );
 		mainPanel.setBorder( null );
-		mainPanel.setDividerLocation( 300 );
+		mainPanel.setDividerLocation( 250 );
+		mainPanel.setResizeWeight( 0.9 );
 
 		add( mainPanel, BorderLayout.CENTER );
 

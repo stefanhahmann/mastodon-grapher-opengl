@@ -3,6 +3,7 @@ package org.mastodon.grapher.opengl.mamut;
 import static org.mastodon.app.ui.ViewMenuBuilder.item;
 import static org.mastodon.app.ui.ViewMenuBuilder.separator;
 import static org.mastodon.mamut.MamutMenuBuilder.colorMenu;
+import static org.mastodon.mamut.MamutMenuBuilder.colorbarMenu;
 import static org.mastodon.mamut.MamutMenuBuilder.editMenu;
 import static org.mastodon.mamut.MamutMenuBuilder.fileMenu;
 import static org.mastodon.mamut.MamutMenuBuilder.tagSetMenu;
@@ -161,6 +162,7 @@ public class MamutViewGrapherOpenGL extends MamutView< ViewGraph< Spot, Link, Sp
 		final ActionMap actionMap = frame.getKeybindings().getConcatenatedActionMap();
 
 		final JMenuHandle coloringMenuHandle = new JMenuHandle();
+		final JMenuHandle colorbarMenuHandle = new JMenuHandle();
 		final JMenuHandle tagSetMenuHandle = new JMenuHandle();
 
 		MainWindow.addMenus( menu, actionMap );
@@ -172,6 +174,7 @@ public class MamutViewGrapherOpenGL extends MamutView< ViewGraph< Spot, Link, Sp
 						item( ExportViewActions.EXPORT_VIEW_TO_PNG ) ),
 				viewMenu(
 						colorMenu( coloringMenuHandle ),
+						colorbarMenu( colorbarMenuHandle ),
 						separator(),
 						item( MastodonFrameViewActions.TOGGLE_SETTINGS_PANEL ) ),
 				editMenu(
@@ -194,6 +197,7 @@ public class MamutViewGrapherOpenGL extends MamutView< ViewGraph< Spot, Link, Sp
 		colorbarOverlay = new ColorBarOverlay( coloringModel, () -> frame.getVertexSidePanel().getBackground() );
 		colorbarOverlay.setVisible( true );
 		colorbarOverlay.setPosition( Position.BOTTOM_LEFT );
+		registerColorbarOverlay( colorbarOverlay, colorbarMenuHandle, () -> {getFrame().pack(); getFrame().repaint();} );
 
 		// Restore coloring.
 		final Boolean noColoring = ( Boolean ) guiState.get( NO_COLORING_KEY );
@@ -264,6 +268,7 @@ public class MamutViewGrapherOpenGL extends MamutView< ViewGraph< Spot, Link, Sp
 		screenTransform.setScreenSize( canvasWidth, canvasHeight );
 		dataDisplayPanel.getScreenTransform().set( screenTransform );
 
+		frame.pack();
 		dataDisplayPanel.plot( gcv );
 		dataDisplayPanel.getTransformEventHandler().zoomOutFully();
 
