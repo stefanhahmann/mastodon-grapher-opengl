@@ -86,6 +86,12 @@ public class PointCloudPanel extends JPanel implements Paintable, ContextListene
 
 	private final HighlightOverlay highlightOverlay;
 
+	private final JPanel mainPanel;
+
+	private final JPanel xAxis;
+
+	private final JPanel yAxis;
+
 	public PointCloudPanel( final DataLayoutMaker layout, final HighlightModel<Spot, Link > highlightModel )
 	{
 		super( new BorderLayout(), false );
@@ -120,11 +126,11 @@ public class PointCloudPanel extends JPanel implements Paintable, ContextListene
 		screenTransform.listeners().add( highlightHandler );
 
 		// Bottom axis.
-		final JPanel xAxis = new MyXAxisPanel( canvas.transform );
-		final JPanel yAxis = new MyYAxisPanel( canvas.transform );
+		xAxis = new MyXAxisPanel( canvas.transform );
+		yAxis = new MyYAxisPanel( canvas.transform );
 
 		// Add main canvas.
-		final JPanel mainPanel = new JPanel();
+		mainPanel = new JPanel();
 		mainPanel.setLayout( new BorderLayout() );
 		mainPanel.add( canvas, BorderLayout.CENTER );
 		mainPanel.add( xAxis, BorderLayout.SOUTH );
@@ -197,6 +203,14 @@ public class PointCloudPanel extends JPanel implements Paintable, ContextListene
 		xScrollBar.setValues( xval, xext, xmin, xmax );
 		yScrollBar.setValues( yval, yext, ymin, ymax );
 		ignoreScrollBarChanges = false;
+	}
+
+	@Override
+	public void paint(Graphics g)
+	{
+		super.paint( g );
+		if (g.getClipBounds() == null)
+			canvas.paint( g, yAxis.getWidth() );
 	}
 
 	public PointCloudCanvas getCanvas()

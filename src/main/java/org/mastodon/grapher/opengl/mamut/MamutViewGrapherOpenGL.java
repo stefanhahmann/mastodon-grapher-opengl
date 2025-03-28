@@ -4,6 +4,7 @@ import static org.mastodon.app.ui.ViewMenuBuilder.item;
 import static org.mastodon.app.ui.ViewMenuBuilder.separator;
 import static org.mastodon.mamut.MamutMenuBuilder.colorMenu;
 import static org.mastodon.mamut.MamutMenuBuilder.editMenu;
+import static org.mastodon.mamut.MamutMenuBuilder.fileMenu;
 import static org.mastodon.mamut.MamutMenuBuilder.tagSetMenu;
 import static org.mastodon.mamut.MamutMenuBuilder.viewMenu;
 
@@ -41,6 +42,7 @@ import org.mastodon.mamut.model.branch.BranchLink;
 import org.mastodon.mamut.model.branch.BranchSpot;
 import org.mastodon.mamut.views.MamutView;
 import org.mastodon.model.tag.TagSetStructure.TagSet;
+import org.mastodon.ui.ExportViewActions;
 import org.mastodon.ui.SelectionActions;
 import org.mastodon.ui.coloring.ColorBarOverlay;
 import org.mastodon.ui.coloring.ColorBarOverlay.Position;
@@ -129,6 +131,9 @@ public class MamutViewGrapherOpenGL extends MamutView< ViewGraph< Spot, Link, Sp
 		// Zoom with a box.
 		DataDisplayZoomGL.install( viewBehaviours, dataDisplayPanel );
 
+		// Export the Grapher window to PNG/SVG
+		ExportViewActions.install( viewActions, dataDisplayPanel, frame, frame.getTitle() );
+
 		// Select with a polygon.
 		FreeformSelectionBehaviourOpenGL.install(
 				viewBehaviours,
@@ -161,6 +166,10 @@ public class MamutViewGrapherOpenGL extends MamutView< ViewGraph< Spot, Link, Sp
 		MainWindow.addMenus( menu, actionMap );
 		appModel.getWindowManager().addWindowMenu( menu, actionMap );
 		MamutMenuBuilder.build( menu, actionMap,
+				fileMenu(
+						separator(),
+						item( ExportViewActions.EXPORT_VIEW_TO_SVG ),
+						item( ExportViewActions.EXPORT_VIEW_TO_PNG ) ),
 				viewMenu(
 						colorMenu( coloringMenuHandle ),
 						separator(),
@@ -178,7 +187,7 @@ public class MamutViewGrapherOpenGL extends MamutView< ViewGraph< Spot, Link, Sp
 		appModel.getPlugins().addMenus( menu );
 
 		/*
-		 * Coloring & colobar.
+		 * Coloring & colorbar.
 		 */
 		coloringModel = registerColoring( coloringAdapter, coloringMenuHandle, () -> remapColor() );
 		registerTagSetMenu( tagSetMenuHandle, () -> remapColor() );
