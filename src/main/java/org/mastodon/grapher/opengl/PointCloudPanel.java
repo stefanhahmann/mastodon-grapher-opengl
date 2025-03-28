@@ -18,6 +18,7 @@ import javax.swing.JScrollBar;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
+import org.mastodon.graph.GraphChangeListener;
 import org.mastodon.grapher.opengl.DataLayoutMaker.DataLayout;
 import org.mastodon.grapher.opengl.handler.MouseHighlightHandler;
 import org.mastodon.grapher.opengl.overlays.DataEdgesOverlay;
@@ -36,7 +37,8 @@ import bdv.viewer.TransformListener;
 import bdv.viewer.render.PainterThread;
 import bdv.viewer.render.PainterThread.Paintable;
 
-public class PointCloudPanel extends JPanel implements Paintable, ContextListener< Spot >, TransformListener< ScreenTransform >, LayoutChangeListener
+public class PointCloudPanel extends JPanel implements Paintable, ContextListener< Spot >, TransformListener< ScreenTransform >, LayoutChangeListener,
+		GraphChangeListener
 {
 
 	private static final long serialVersionUID = 1L;
@@ -296,6 +298,15 @@ public class PointCloudPanel extends JPanel implements Paintable, ContextListene
 
 	// Width of the ticks. TODO put all in a style object.
 	private final int tickWidth = 5;
+
+	@Override
+	public void graphChanged()
+	{
+		final DataLayout dataLayout = layout.layout();
+		dataPointsOverlay.draw( dataLayout );
+		dataEdgesOverlay.draw( dataLayout );
+		painterThread.requestRepaint();
+	}
 
 	private class MyYAxisPanel extends JPanel
 	{
