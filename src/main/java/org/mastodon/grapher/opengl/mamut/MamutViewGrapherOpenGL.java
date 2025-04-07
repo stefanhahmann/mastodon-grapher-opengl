@@ -47,8 +47,11 @@ import org.mastodon.ui.ExportViewActions;
 import org.mastodon.ui.SelectionActions;
 import org.mastodon.ui.coloring.ColorBarOverlay;
 import org.mastodon.ui.coloring.ColorBarOverlay.Position;
+import org.mastodon.ui.coloring.ColoringModel;
 import org.mastodon.ui.coloring.ColoringModelMain;
 import org.mastodon.ui.coloring.GraphColorGeneratorAdapter;
+import org.mastodon.ui.coloring.HasColorBarOverlay;
+import org.mastodon.ui.coloring.HasColoringModel;
 import org.mastodon.ui.coloring.feature.FeatureColorMode;
 import org.mastodon.ui.keymap.KeyConfigContexts;
 import org.mastodon.views.context.ContextChooser;
@@ -63,7 +66,7 @@ import org.mastodon.views.grapher.display.style.DataDisplayStyleManager;
 import org.scijava.ui.behaviour.KeyPressedManager;
 
 public class MamutViewGrapherOpenGL extends MamutView< ViewGraph< Spot, Link, Spot, Link >, Spot, Link >
-		implements HasContextChooser< Spot >
+		implements HasContextChooser< Spot >, HasColoringModel, HasColorBarOverlay
 {
 
 	private final GraphColorGeneratorAdapter< Spot, Link, Spot, Link > coloringAdapter;
@@ -303,5 +306,17 @@ public class MamutViewGrapherOpenGL extends MamutView< ViewGraph< Spot, Link, Sp
 	public ContextChooser< Spot > getContextChooser()
 	{
 		return getFrame().getVertexSidePanel().getContextChooser();
+	}
+
+	@Override
+	public ColorBarOverlay getColorBarOverlay()
+	{
+		return this.colorbarOverlay;
+	}
+
+	@Override
+	public ColoringModel getColoringModel()
+	{
+		return this.coloringModel;
 	}
 }
