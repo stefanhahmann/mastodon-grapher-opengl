@@ -197,7 +197,16 @@ public class PointCloudPanel extends JPanel implements Paintable, TransformListe
 	public void paint()
 	{
 		repaint();
-		SwingUtilities.invokeLater( canvas::render );
+		SwingUtilities.invokeLater( () -> {
+			try
+			{
+				canvas.render();
+			}
+			catch ( RuntimeException e )
+			{
+				// ignore
+			}
+		} );
 
 		// adjust scrollbars sizes
 		xScrollScale = 10000.0 / ( layoutMaxX - layoutMinX + 2 );
