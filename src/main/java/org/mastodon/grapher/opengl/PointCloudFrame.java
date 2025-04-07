@@ -26,12 +26,14 @@ import org.mastodon.model.NavigationHandler;
 import org.mastodon.model.SelectionModel;
 import org.mastodon.undo.UndoPointMarker;
 import org.mastodon.util.FeatureUtils;
+import org.mastodon.views.context.Context;
 import org.mastodon.views.context.ContextChooser;
+import org.mastodon.views.context.ContextListener;
 import org.mastodon.views.grapher.display.DataDisplayOptions;
 import org.mastodon.views.grapher.display.GrapherSidePanel;
 import org.scijava.ui.behaviour.MouseAndKeyHandler;
 
-public class PointCloudFrame extends ViewFrame
+public class PointCloudFrame extends ViewFrame implements ContextListener<Spot>
 {
 	private static final long serialVersionUID = 1L;
 
@@ -72,7 +74,7 @@ public class PointCloudFrame extends ViewFrame
 		 * Side panel.
 		 */
 
-		final ContextChooser< Spot > contextChooser = new ContextChooser<>( dataDisplayPanel );
+		final ContextChooser< Spot > contextChooser = new ContextChooser<>( this );
 		sidePanel = new GrapherSidePanel( nSources, contextChooser );
 		sidePanel.getBtnPlot().addActionListener( e -> dataDisplayPanel.plot( sidePanel.getGraphConfig() ) );
 
@@ -143,5 +145,13 @@ public class PointCloudFrame extends ViewFrame
 	public PointCloudPanel getDataDisplayPanel()
 	{
 		return dataDisplayPanel;
+	}
+
+	@Override
+	public void contextChanged( final Context< Spot > context )
+	{
+		dataDisplayPanel.getDataLayout().contextChanged( context );
+		sidePanel.getGraphConfig();
+		dataDisplayPanel.plot( sidePanel.getGraphConfig() );
 	}
 }

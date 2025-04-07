@@ -51,6 +51,8 @@ import org.mastodon.ui.coloring.ColoringModelMain;
 import org.mastodon.ui.coloring.GraphColorGeneratorAdapter;
 import org.mastodon.ui.coloring.feature.FeatureColorMode;
 import org.mastodon.ui.keymap.KeyConfigContexts;
+import org.mastodon.views.context.ContextChooser;
+import org.mastodon.views.context.HasContextChooser;
 import org.mastodon.views.grapher.datagraph.ScreenTransform;
 import org.mastodon.views.grapher.display.DataDisplayOptions;
 import org.mastodon.views.grapher.display.FeatureGraphConfig;
@@ -61,6 +63,7 @@ import org.mastodon.views.grapher.display.style.DataDisplayStyleManager;
 import org.scijava.ui.behaviour.KeyPressedManager;
 
 public class MamutViewGrapherOpenGL extends MamutView< ViewGraph< Spot, Link, Spot, Link >, Spot, Link >
+		implements HasContextChooser< Spot >
 {
 
 	private final GraphColorGeneratorAdapter< Spot, Link, Spot, Link > coloringAdapter;
@@ -294,5 +297,11 @@ public class MamutViewGrapherOpenGL extends MamutView< ViewGraph< Spot, Link, Sp
 	private static ViewGraph< Spot, Link, Spot, Link > createViewGraph( final ProjectModel appModel )
 	{
 		return IdentityViewGraph.wrap( appModel.getModel().getGraph(), appModel.getModel().getGraphIdBimap() );
+	}
+
+	@Override
+	public ContextChooser< Spot > getContextChooser()
+	{
+		return getFrame().getVertexSidePanel().getContextChooser();
 	}
 }

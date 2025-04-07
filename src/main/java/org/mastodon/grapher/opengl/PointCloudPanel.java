@@ -29,8 +29,6 @@ import org.mastodon.mamut.model.ModelGraph;
 import org.mastodon.mamut.model.Spot;
 import org.mastodon.model.HighlightModel;
 import org.mastodon.model.NavigationListener;
-import org.mastodon.views.context.Context;
-import org.mastodon.views.context.ContextListener;
 import org.mastodon.views.grapher.datagraph.ScreenTransform;
 import org.mastodon.views.grapher.display.FeatureGraphConfig;
 import org.mastodon.views.grapher.display.InertialScreenTransformEventHandler;
@@ -40,7 +38,7 @@ import bdv.viewer.TransformListener;
 import bdv.viewer.render.PainterThread;
 import bdv.viewer.render.PainterThread.Paintable;
 
-public class PointCloudPanel extends JPanel implements Paintable, ContextListener< Spot >, TransformListener< ScreenTransform >, LayoutChangeListener,
+public class PointCloudPanel extends JPanel implements Paintable, TransformListener< ScreenTransform >, LayoutChangeListener,
 		GraphChangeListener, NavigationListener<Spot, Link>
 {
 
@@ -239,11 +237,6 @@ public class PointCloudPanel extends JPanel implements Paintable, ContextListene
 		painterThread.requestRepaint();
 	}
 
-	@Override
-	public void contextChanged( final Context< Spot > context )
-	{
-		System.out.println( "Context changed!" ); // DEBUG
-	}
 
 	public InertialScreenTransformEventHandlerOpenGL getTransformEventHandler()
 	{
