@@ -33,8 +33,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
-import net.imglib2.RealLocalizable;
-
 import org.lwjgl.opengl.GL33;
 import org.mastodon.collection.RefSet;
 import org.mastodon.grapher.opengl.PointCloudPanel;
@@ -180,13 +178,13 @@ public class FreeformSelectionBehaviourOpenGL extends AbstractDragSelectionBehav
 		graph.releaseRef( vertexRef );
 	}
 
-	private boolean isPointInsidePolygon( final RealLocalizable point )
+	private boolean isPointInsidePolygon( final Spot point )
 	{
 		final int n = polygon.size();
 		boolean inside = false;
 
-		final double xl = point.getDoublePosition( 0 );
-		final double yl = point.getDoublePosition( 1 );
+		final double xl = pointCloudPanel.getDataLayout().getXFeatureValue( point );
+		final double yl = pointCloudPanel.getDataLayout().getYFeatureValue( point );
 		final double xs = screenTransform.layoutToScreenX( xl );
 		final double ys = screenTransform.layoutToScreenY( yl );
 
