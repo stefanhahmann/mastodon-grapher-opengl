@@ -42,6 +42,7 @@ import org.mastodon.mamut.model.Spot;
 import org.mastodon.mamut.model.branch.BranchLink;
 import org.mastodon.mamut.model.branch.BranchSpot;
 import org.mastodon.mamut.views.MamutView;
+import org.mastodon.mamut.views.grapher.GrapherGuiState;
 import org.mastodon.model.tag.TagSetStructure.TagSet;
 import org.mastodon.ui.ExportViewActions;
 import org.mastodon.ui.SelectionActions;
@@ -61,6 +62,7 @@ import org.mastodon.views.grapher.display.DataDisplayOptions;
 import org.mastodon.views.grapher.display.FeatureGraphConfig;
 import org.mastodon.views.grapher.display.FeatureGraphConfig.GraphDataItemsSource;
 import org.mastodon.views.grapher.display.FeatureSpecPair;
+import org.mastodon.views.grapher.display.GrapherSidePanel;
 import org.mastodon.views.grapher.display.style.DataDisplayStyle;
 import org.mastodon.views.grapher.display.style.DataDisplayStyleManager;
 import org.scijava.ui.behaviour.KeyPressedManager;
@@ -114,12 +116,11 @@ public class MamutViewGrapherOpenGL extends MamutView< ViewGraph< Spot, Link, Sp
 		setFrame( frame );
 		dataDisplayPanel = frame.getDataDisplayPanel();
 
-		// If they are available, set some sensible defaults for the feature.
-		final FeatureSpecPair spvx = new FeatureSpecPair( SpotPositionFeature.SPEC, SpotPositionFeature.PROJECTION_SPECS.get( 0 ), false, false );
-		final FeatureSpecPair spvy = new FeatureSpecPair( SpotPositionFeature.SPEC, SpotPositionFeature.PROJECTION_SPECS.get( 1 ), 0, false, false );
-		final boolean showEdges = false;
-		final FeatureGraphConfig gcv = new FeatureGraphConfig( spvx, spvy, GraphDataItemsSource.CONTEXT, showEdges );
-		frame.getVertexSidePanel().setGraphConfig( gcv );
+		final FeatureGraphConfig defaultConfig = getDefaultFeatureGraphConfig();
+		final GrapherSidePanel sidePanel = frame.getVertexSidePanel();
+		// Read Feature graph config from GUI state (i.e. restore shown features and show edges setting)
+		FeatureGraphConfig config = GrapherGuiState.loadFeatureGraphConfig( sidePanel, guiState, defaultConfig );
+		sidePanel.setGraphConfig( config );
 
 //		contextListener.setContextListener( dataDisplayPanel );
 
@@ -248,7 +249,6 @@ public class MamutViewGrapherOpenGL extends MamutView< ViewGraph< Spot, Link, Sp
 		/*
 		 * Add the colorbar to the side panel, by hacking its layout.
 		 */
-
 		final JComponent sideCanvas = new JComponent()
 		{
 
@@ -278,11 +278,20 @@ public class MamutViewGrapherOpenGL extends MamutView< ViewGraph< Spot, Link, Sp
 		dataDisplayPanel.getScreenTransform().set( screenTransform );
 
 		frame.pack();
-		dataDisplayPanel.plot( gcv );
+		dataDisplayPanel.plot( config );
 		dataDisplayPanel.getTransformEventHandler().zoomOutFully();
 
 		dataDisplayPanel.repaint();
 		dataDisplayPanel.getCanvas().requestFocusInWindow();
+	}
+
+	static FeatureGraphConfig getDefaultFeatureGraphConfig()
+	{
+		// If they are available, set some sensible defaults for the feature.
+		final FeatureSpecPair spvx = new FeatureSpecPair( SpotPositionFeature.SPEC, SpotPositionFeature.PROJECTION_SPECS.get( 0 ), false, false );
+		final FeatureSpecPair spvy = new FeatureSpecPair( SpotPositionFeature.SPEC, SpotPositionFeature.PROJECTION_SPECS.get( 1 ), 0, false, false );
+		final boolean showEdges = false;
+		return new FeatureGraphConfig( spvx, spvy, GraphDataItemsSource.CONTEXT, showEdges );
 	}
 
 	@Override
