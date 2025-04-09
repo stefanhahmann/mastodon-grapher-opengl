@@ -118,7 +118,7 @@ public class MamutViewGrapherOpenGL extends MamutView< ViewGraph< Spot, Link, Sp
 		dataDisplayPanel = frame.getDataDisplayPanel();
 
 		final FeatureGraphConfig defaultConfig = getDefaultFeatureGraphConfig();
-		final GrapherSidePanel sidePanel = frame.getVertexSidePanel();
+		final GrapherSidePanel<Spot, Link> sidePanel = frame.getVertexSidePanel();
 		// Read Feature graph config from GUI state (i.e. restore shown features and show edges setting)
 		FeatureGraphConfig config = GrapherGuiState.loadFeatureGraphConfig( sidePanel, guiState, defaultConfig );
 		sidePanel.setGraphConfig( config );

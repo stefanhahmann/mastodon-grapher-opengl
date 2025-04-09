@@ -41,7 +41,7 @@ public class PointCloudFrame extends ViewFrame implements ContextListener<Spot>,
 
 	private final PointCloudPanel dataDisplayPanel;
 
-	private final GrapherSidePanel sidePanel;
+	private final GrapherSidePanel<Spot, Link> sidePanel;
 
 	public PointCloudFrame(
 			final ModelGraph graph,
@@ -77,7 +77,7 @@ public class PointCloudFrame extends ViewFrame implements ContextListener<Spot>,
 		 */
 
 		final ContextChooser< Spot > contextChooser = new ContextChooser<>( this );
-		sidePanel = new GrapherSidePanel( nSources, contextChooser );
+		sidePanel = new GrapherSidePanel<>( nSources, contextChooser );
 		sidePanel.getBtnPlot().addActionListener( e -> {
 			dataDisplayPanel.plot( sidePanel.getGraphConfig() );
 			dataDisplayPanel.getTransformEventHandler().zoomOutFully();
@@ -142,7 +142,7 @@ public class PointCloudFrame extends ViewFrame implements ContextListener<Spot>,
 			setLocation( x, y );
 	}
 
-	public GrapherSidePanel getVertexSidePanel()
+	public GrapherSidePanel<Spot, Link> getVertexSidePanel()
 	{
 		return sidePanel;
 	}
