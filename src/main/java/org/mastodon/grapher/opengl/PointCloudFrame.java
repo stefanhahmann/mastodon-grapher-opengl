@@ -37,7 +37,7 @@ import org.mastodon.views.grapher.display.GrapherSidePanel;
 import org.mastodon.views.grapher.display.Plotable;
 import org.scijava.ui.behaviour.MouseAndKeyHandler;
 
-public class PointCloudFrame extends ViewFrame implements ContextListener<Spot>, Plotable, GraphChangeListener
+public class PointCloudFrame extends ViewFrame implements ContextListener<Spot>, Plotable, GraphChangeListener, FocusListener
 {
 	private static final long serialVersionUID = 1L;
 
@@ -66,6 +66,7 @@ public class PointCloudFrame extends ViewFrame implements ContextListener<Spot>,
 		final DataLayoutMaker layout = new DataLayoutMaker( graph, highlight, selection, featureModel, optional );
 		dataDisplayPanel = new PointCloudPanel( layout, highlight, graph );
 		graph.addGraphChangeListener( this );
+		focus.listeners().add( this );
 		navigation.listeners().add( dataDisplayPanel );
 
 		// Update color when the selection or style changes.
@@ -181,6 +182,12 @@ public class PointCloudFrame extends ViewFrame implements ContextListener<Spot>,
 
 	@Override
 	public void graphChanged()
+	{
+		dataDisplayPanel.plot( sidePanel.getGraphConfig() );
+	}
+
+	@Override
+	public void focusChanged()
 	{
 		dataDisplayPanel.plot( sidePanel.getGraphConfig() );
 	}

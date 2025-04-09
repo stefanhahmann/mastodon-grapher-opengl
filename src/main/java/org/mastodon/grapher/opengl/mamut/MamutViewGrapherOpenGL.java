@@ -106,7 +106,7 @@ public class MamutViewGrapherOpenGL extends MamutView< ViewGraph< Spot, Link, Sp
 				model.getFeatureModel(),
 				nSources,
 				highlightModel,
-				null,
+				focusModel,
 				selectionModel,
 				navigationHandler,
 				model,
