@@ -76,7 +76,10 @@ public class PointCloudFrame extends ViewFrame implements ContextListener<Spot>
 
 		final ContextChooser< Spot > contextChooser = new ContextChooser<>( this );
 		sidePanel = new GrapherSidePanel( nSources, contextChooser );
-		sidePanel.getBtnPlot().addActionListener( e -> dataDisplayPanel.plot( sidePanel.getGraphConfig() ) );
+		sidePanel.getBtnPlot().addActionListener( e -> {
+			dataDisplayPanel.plot( sidePanel.getGraphConfig() );
+			dataDisplayPanel.getTransformEventHandler().zoomOutFully();
+		} );
 
 		final FeatureModelListener featureModelListener = () -> sidePanel.setFeatures(
 				FeatureUtils.collectFeatureMap( featureModel, Spot.class ),
