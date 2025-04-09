@@ -281,6 +281,8 @@ public class MamutViewGrapherOpenGL extends MamutView< ViewGraph< Spot, Link, Sp
 		dataDisplayPanel.plot( config );
 		if ( guiState.isEmpty() )
 			dataDisplayPanel.getTransformEventHandler().zoomOutFully();
+		else
+			this.getFrame().plot( dataDisplayPanel.getScreenTransform().get() );
 
 		dataDisplayPanel.repaint();
 		dataDisplayPanel.getCanvas().requestFocusInWindow();

@@ -29,11 +29,13 @@ import org.mastodon.util.FeatureUtils;
 import org.mastodon.views.context.Context;
 import org.mastodon.views.context.ContextChooser;
 import org.mastodon.views.context.ContextListener;
+import org.mastodon.views.grapher.datagraph.ScreenTransform;
 import org.mastodon.views.grapher.display.DataDisplayOptions;
 import org.mastodon.views.grapher.display.GrapherSidePanel;
+import org.mastodon.views.grapher.display.Plotable;
 import org.scijava.ui.behaviour.MouseAndKeyHandler;
 
-public class PointCloudFrame extends ViewFrame implements ContextListener<Spot>
+public class PointCloudFrame extends ViewFrame implements ContextListener<Spot>, Plotable
 {
 	private static final long serialVersionUID = 1L;
 
@@ -148,6 +150,13 @@ public class PointCloudFrame extends ViewFrame implements ContextListener<Spot>
 	public PointCloudPanel getDataDisplayPanel()
 	{
 		return dataDisplayPanel;
+	}
+
+	public void plot(final ScreenTransform screenTransform )
+	{
+		dataDisplayPanel.plot( sidePanel.getGraphConfig() );
+		if (screenTransform != null)
+			dataDisplayPanel.transformChanged( screenTransform );
 	}
 
 	@Override

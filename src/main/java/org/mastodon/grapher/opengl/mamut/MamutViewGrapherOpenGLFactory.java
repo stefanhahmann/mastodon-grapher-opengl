@@ -28,8 +28,6 @@
  */
 package org.mastodon.grapher.opengl.mamut;
 
-import static org.mastodon.mamut.views.grapher.GrapherGuiState.GRAPHER_TRANSFORM_KEY;
-
 import java.util.Map;
 
 import org.mastodon.mamut.ProjectModel;
@@ -37,8 +35,8 @@ import org.mastodon.mamut.views.AbstractMamutViewFactory;
 import org.mastodon.mamut.views.MamutViewFactory;
 import org.mastodon.mamut.views.grapher.GrapherGuiState;
 import org.mastodon.mamut.views.grapher.MamutViewGrapher;
-import org.mastodon.views.grapher.datagraph.ScreenTransform;
 import org.mastodon.views.grapher.display.FeatureGraphConfig;
+import org.mastodon.views.grapher.display.ScreenTransformState;
 import org.scijava.Priority;
 import org.scijava.plugin.Plugin;
 
@@ -64,9 +62,9 @@ public class MamutViewGrapherOpenGLFactory extends AbstractMamutViewFactory< Mam
 	public Map< String, Object > getGuiState( final MamutViewGrapherOpenGL view )
 	{
 		final Map< String, Object > guiState = super.getGuiState( view );
-		final ScreenTransform transform = view.getFrame().getDataDisplayPanel().getScreenTransform().get();
+		final ScreenTransformState screenTransformState = view.getFrame().getDataDisplayPanel().getScreenTransform();
 		final FeatureGraphConfig config = view.getFrame().getVertexSidePanel().getGraphConfig();
-		GrapherGuiState.writeGuiState( transform, config, guiState );
+		GrapherGuiState.writeGuiState( screenTransformState, config, guiState );
 		return guiState;
 	}
 
@@ -76,8 +74,8 @@ public class MamutViewGrapherOpenGLFactory extends AbstractMamutViewFactory< Mam
 	{
 		super.restoreGuiState( view, guiState );
 
-		GrapherGuiState.loadGuiState( view.getFrame().getDataDisplayPanel().getScreenTransform(), view.getFrame().getVertexSidePanel(),
-				guiState, MamutViewGrapherOpenGL.getDefaultFeatureGraphConfig() );
+		GrapherGuiState.loadGuiState( guiState, view.getFrame().getDataDisplayPanel().getScreenTransform(), view.getFrame().getVertexSidePanel(),
+				MamutViewGrapherOpenGL.getDefaultFeatureGraphConfig(), view.getFrame() );
 	}
 
 	@Override
