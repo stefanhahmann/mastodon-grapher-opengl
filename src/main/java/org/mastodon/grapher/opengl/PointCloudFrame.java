@@ -16,10 +16,12 @@ import org.mastodon.app.ui.GroupLocksPanel;
 import org.mastodon.app.ui.ViewFrame;
 import org.mastodon.feature.FeatureModel;
 import org.mastodon.feature.FeatureModel.FeatureModelListener;
+import org.mastodon.graph.GraphChangeListener;
 import org.mastodon.grouping.GroupHandle;
 import org.mastodon.mamut.model.Link;
 import org.mastodon.mamut.model.ModelGraph;
 import org.mastodon.mamut.model.Spot;
+import org.mastodon.model.FocusListener;
 import org.mastodon.model.FocusModel;
 import org.mastodon.model.HighlightModel;
 import org.mastodon.model.NavigationHandler;
@@ -35,7 +37,7 @@ import org.mastodon.views.grapher.display.GrapherSidePanel;
 import org.mastodon.views.grapher.display.Plotable;
 import org.scijava.ui.behaviour.MouseAndKeyHandler;
 
-public class PointCloudFrame extends ViewFrame implements ContextListener<Spot>, Plotable
+public class PointCloudFrame extends ViewFrame implements ContextListener<Spot>, Plotable, GraphChangeListener
 {
 	private static final long serialVersionUID = 1L;
 
@@ -63,7 +65,7 @@ public class PointCloudFrame extends ViewFrame implements ContextListener<Spot>,
 
 		final DataLayoutMaker layout = new DataLayoutMaker( graph, highlight, selection, featureModel, optional );
 		dataDisplayPanel = new PointCloudPanel( layout, highlight, graph );
-		graph.addGraphChangeListener( dataDisplayPanel );
+		graph.addGraphChangeListener( this );
 		navigation.listeners().add( dataDisplayPanel );
 
 		// Update color when the selection or style changes.
@@ -174,6 +176,12 @@ public class PointCloudFrame extends ViewFrame implements ContextListener<Spot>,
 	{
 		dataDisplayPanel.getDataLayout().contextChanged( context );
 		sidePanel.getGraphConfig();
+		dataDisplayPanel.plot( sidePanel.getGraphConfig() );
+	}
+
+	@Override
+	public void graphChanged()
+	{
 		dataDisplayPanel.plot( sidePanel.getGraphConfig() );
 	}
 }
