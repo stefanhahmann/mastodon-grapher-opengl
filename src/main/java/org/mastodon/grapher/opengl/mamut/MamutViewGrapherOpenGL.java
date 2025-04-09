@@ -11,9 +11,7 @@ import static org.mastodon.mamut.MamutMenuBuilder.viewMenu;
 
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.swing.ActionMap;
@@ -208,43 +206,6 @@ public class MamutViewGrapherOpenGL extends MamutView< ViewGraph< Spot, Link, Sp
 		colorbarOverlay.setVisible( true );
 		colorbarOverlay.setPosition( Position.BOTTOM_LEFT );
 		registerColorbarOverlay( colorbarOverlay, colorbarMenuHandle, () -> {getFrame().pack(); getFrame().repaint();} );
-
-		// Restore coloring.
-		final Boolean noColoring = ( Boolean ) guiState.get( NO_COLORING_KEY );
-		if ( null != noColoring && noColoring )
-		{
-			coloringModel.colorByNone();
-		}
-		else
-		{
-			final String tagSetName = ( String ) guiState.get( TAG_SET_KEY );
-			final String featureColorModeName = ( String ) guiState.get( FEATURE_COLOR_MODE_KEY );
-			if ( null != tagSetName )
-			{
-				for ( final TagSet tagSet : coloringModel.getTagSetStructure().getTagSets() )
-				{
-					if ( tagSet.getName().equals( tagSetName ) )
-					{
-						coloringModel.colorByTagSet( tagSet );
-						break;
-					}
-				}
-			}
-			else if ( null != featureColorModeName )
-			{
-				final List< FeatureColorMode > featureColorModes = new ArrayList<>();
-				featureColorModes.addAll( coloringModel.getFeatureColorModeManager().getBuiltinStyles() );
-				featureColorModes.addAll( coloringModel.getFeatureColorModeManager().getUserStyles() );
-				for ( final FeatureColorMode featureColorMode : featureColorModes )
-				{
-					if ( featureColorMode.getName().equals( featureColorModeName ) )
-					{
-						coloringModel.colorByFeature( featureColorMode );
-						break;
-					}
-				}
-			}
-		}
 
 		/*
 		 * Add the colorbar to the side panel, by hacking its layout.
