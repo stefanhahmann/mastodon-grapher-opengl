@@ -16,10 +16,12 @@ import java.util.Map;
 
 import javax.swing.ActionMap;
 import javax.swing.JComponent;
+import javax.swing.JPanel;
 
 import org.mastodon.app.IdentityViewGraph;
 import org.mastodon.app.ViewGraph;
 import org.mastodon.app.ui.MastodonFrameViewActions;
+import org.mastodon.app.ui.SearchVertexLabel;
 import org.mastodon.app.ui.ViewMenu;
 import org.mastodon.app.ui.ViewMenuBuilder.JMenuHandle;
 import org.mastodon.grapher.opengl.PointCloudCanvas;
@@ -247,6 +249,13 @@ public class MamutViewGrapherOpenGL extends MamutView< ViewGraph< Spot, Link, Sp
 				.parent( frame )
 				.installOn( viewActions );
 		cf.getDialog().setTitle( cf.getDialog().getTitle() + " - " + frame.getTitle() );
+
+		/*
+		 * Add the search panel.
+		 */
+		final JPanel searchPanel =
+				SearchVertexLabel.install( viewActions, viewGraph, navigationHandler, selectionModel, focusModel, dataDisplayPanel );
+		frame.getSettingsPanel().add( searchPanel );
 
 		// update screen transform with actual canvas size before plotting
 		ScreenTransform screenTransform = dataDisplayPanel.getScreenTransform().get();
