@@ -52,6 +52,7 @@ import org.mastodon.ui.coloring.GraphColorGeneratorAdapter;
 import org.mastodon.ui.coloring.HasColorBarOverlay;
 import org.mastodon.ui.coloring.HasColoringModel;
 import org.mastodon.ui.coloring.feature.FeatureColorMode;
+import org.mastodon.ui.commandfinder.CommandFinder;
 import org.mastodon.ui.keymap.KeyConfigContexts;
 import org.mastodon.views.context.ContextChooser;
 import org.mastodon.views.context.HasContextChooser;
@@ -229,6 +230,23 @@ public class MamutViewGrapherOpenGL extends MamutView< ViewGraph< Spot, Link, Sp
 		gbc.fill = GridBagConstraints.BOTH;
 		frame.getVertexSidePanel().add( sideCanvas, gbc );
 		colorbarOverlay.setCanvasSize( 250, 80 );
+
+		/*
+		 *  Add the command finder.
+		 */
+		final CommandFinder cf = CommandFinder.build()
+				.context( appModel.getContext() )
+				.inputTriggerConfig( appModel.getKeymap().getConfig() )
+				.keyConfigContexts( keyConfigContexts )
+				.descriptionProvider( appModel.getWindowManager().getViewFactories().getCommandDescriptions() )
+				.register( viewActions )
+				.register( appModel.getModelActions() )
+				.register( appModel.getProjectActions() )
+				.register( appModel.getPlugins().getPluginActions() )
+				.modificationListeners( appModel.getKeymap().updateListeners() )
+				.parent( frame )
+				.installOn( viewActions );
+		cf.getDialog().setTitle( cf.getDialog().getTitle() + " - " + frame.getTitle() );
 
 		// update screen transform with actual canvas size before plotting
 		ScreenTransform screenTransform = dataDisplayPanel.getScreenTransform().get();
