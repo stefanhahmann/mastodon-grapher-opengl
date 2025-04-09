@@ -266,6 +266,11 @@ public class PointCloudPanel extends JPanel implements Paintable, TransformListe
 	public void plot( final FeatureGraphConfig gc )
 	{
 		layout.setConfig( gc );
+		plot();
+	}
+
+	public void plot()
+	{
 		final DataLayout dataLayout = layout.layout();
 		dataPointsOverlay.draw( dataLayout );
 		dataEdgesOverlay.draw( dataLayout );
@@ -316,10 +321,7 @@ public class PointCloudPanel extends JPanel implements Paintable, TransformListe
 	@Override
 	public void graphChanged()
 	{
-		final DataLayout dataLayout = layout.layout();
-		dataPointsOverlay.draw( dataLayout );
-		dataEdgesOverlay.draw( dataLayout );
-		painterThread.requestRepaint();
+		plot();
 	}
 
 	@Override
