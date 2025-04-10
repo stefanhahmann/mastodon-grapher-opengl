@@ -36,7 +36,7 @@
 		<license.organizationName>Mastodon authors</license.organizationName>
 		<license.copyrightOwners>Tobias Pietzsch, Jean-Yves Tinevez</license.copyrightOwners>
 
-		<mastodon.version>1.0.0-beta-34</mastodon.version>
+		<mastodon.version>1.0.0-beta-35-SNAPSHOT</mastodon.version>
 
 		<lwjgl.version>3.3.6</lwjgl.version>
 		<lwjgl3-awt.version>0.2.3</lwjgl3-awt.version>
