@@ -159,8 +159,13 @@ public class PointCloudFrame extends ViewFrame implements ContextListener<Spot>,
 	public void plot(final ScreenTransform screenTransform )
 	{
 		dataDisplayPanel.plot( sidePanel.getGraphConfig() );
-		if (screenTransform != null)
+		if (screenTransform == null)
+			dataDisplayPanel.getTransformEventHandler().zoomOutFully();
+		else
+		{
+			dataDisplayPanel.getScreenTransform().set( screenTransform );
 			dataDisplayPanel.transformChanged( screenTransform );
+		}
 	}
 
 	@Override
