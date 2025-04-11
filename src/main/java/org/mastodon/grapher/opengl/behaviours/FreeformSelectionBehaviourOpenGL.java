@@ -30,6 +30,7 @@ package org.mastodon.grapher.opengl.behaviours;
 
 import java.awt.Point;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
@@ -45,6 +46,7 @@ import org.mastodon.model.SelectionModel;
 import org.mastodon.ui.keymap.KeyConfigContexts;
 import org.mastodon.ui.keymap.KeyConfigScopes;
 import org.mastodon.ui.util.RamerDouglasPeucker;
+import org.mastodon.views.grapher.datagraph.DataVertex;
 import org.scijava.plugin.Plugin;
 import org.scijava.ui.behaviour.io.gui.CommandDescriptionProvider;
 import org.scijava.ui.behaviour.io.gui.CommandDescriptions;
@@ -164,8 +166,6 @@ public class FreeformSelectionBehaviourOpenGL extends AbstractDragSelectionBehav
 			if ( isPointInsidePolygon( spot ) )
 			{
 				selection.setSelected( spot, true );
-				focus.focusVertex( spot );
-				navigationHandler.notifyNavigateToVertex( spot );
 				// select links, if both source and target are within the polygon
 				for ( final Link link : spot.outgoingEdges() )
 				{
@@ -174,6 +174,13 @@ public class FreeformSelectionBehaviourOpenGL extends AbstractDragSelectionBehav
 						selection.setSelected( link, true );
 				}
 			}
+		}
+		final Iterator< Spot > it = spotsWithinBoundingBox.iterator();
+		if ( it.hasNext() )
+		{
+			Spot spot = it.next();
+			focus.focusVertex( spot );
+			navigationHandler.notifyNavigateToVertex( spot );
 		}
 		graph.releaseRef( vertexRef );
 	}

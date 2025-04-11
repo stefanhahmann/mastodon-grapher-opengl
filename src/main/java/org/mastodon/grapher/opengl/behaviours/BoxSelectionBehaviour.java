@@ -1,5 +1,6 @@
 package org.mastodon.grapher.opengl.behaviours;
 
+import java.util.Iterator;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import org.lwjgl.opengl.GL33;
@@ -93,8 +94,6 @@ public class BoxSelectionBehaviour extends AbstractDragSelectionBehaviour
 		for ( final Spot spot : spotsWithinBoundingBox )
 		{
 			selection.setSelected( spot, true );
-			focus.focusVertex( spot );
-			navigationHandler.notifyNavigateToVertex( spot );
 			// select links, if both source and target are within the bounding box
 			for ( final Link link : spot.outgoingEdges() )
 			{
@@ -103,6 +102,15 @@ public class BoxSelectionBehaviour extends AbstractDragSelectionBehaviour
 					selection.setSelected( link, true );
 			}
 		}
+
+		final Iterator< Spot > it = spotsWithinBoundingBox.iterator();
+		if ( it.hasNext() )
+		{
+			Spot spot = it.next();
+			focus.focusVertex( spot );
+			navigationHandler.notifyNavigateToVertex( spot );
+		}
+
 		graph.releaseRef( vertexRef );
 	}
 
