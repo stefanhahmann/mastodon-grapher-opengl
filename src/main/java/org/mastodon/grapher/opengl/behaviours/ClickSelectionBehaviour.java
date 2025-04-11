@@ -72,6 +72,7 @@ public class ClickSelectionBehaviour extends AbstractSelectionBehaviour implemen
 					selection.toggle( link );
 				else
 					selection.setSelected( link, true );
+				navigationHandler.notifyNavigateToEdge( link );
 			}
 		}
 	}
