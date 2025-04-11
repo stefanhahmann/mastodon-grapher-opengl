@@ -223,10 +223,12 @@ public class MamutViewGrapherOpenGL extends MamutView< ViewGraph< Spot, Link, Sp
 			}
 		};
 		sideCanvas.setPreferredSize( new Dimension( 250, 80 ) );
+		sideCanvas.setMinimumSize( new Dimension( 250, 1 ) );
 		final GridBagConstraints gbc = new GridBagConstraints();
 		gbc.anchor = GridBagConstraints.SOUTHWEST;
 		gbc.gridx = 0;
 		gbc.gridy = 13;
+		gbc.weighty = 1.0;
 		gbc.fill = GridBagConstraints.BOTH;
 		frame.getVertexSidePanel().add( sideCanvas, gbc );
 		colorbarOverlay.setCanvasSize( 250, 80 );
